@@ -1,0 +1,115 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 06 15:29:18 2016
+
+@author: Administrator
+"""
+
+from IBridgePy.quantopian import LimitOrder, StopOrder, MarketOrder
+from IBridgePy.quantopian import LimitOnOpenOrder, LimitOnCloseOrder
+from BasicPyLib.handle_calendar import *
+from IBridgePy.quantopian import calendars,date_rules, time_rules
+from IBridgePy.TradingRules import TradingRules, Indicator, IndicatorDetails
+import os
+from sys import exit
+import time
+
+try:
+    id(runMode)
+except:
+    runMode='run'
+    
+if type(accountCode)==str:
+    from IBridgePy.Trader_single_account import Trader
+    from IBridgePy.MarketManagerBase import MarketManager
+else:
+    print ('accountCode must be a string')
+    exit()
+
+try:
+    id(fileName)
+except:
+    print (__name__+':EXIT, fileName is empty')
+    exit()
+    
+if r'\\' in fileName or r'/' in fileName:
+    with open(fileName) as f:
+        script = f.read()
+    exec(script)
+else:
+    with open(os.path.join(os.getcwd(), 'Strategies', fileName)) as f:
+        script = f.read()
+    exec(script)
+
+try:
+    id(logLevel)
+except:
+    logLevel='INFO'
+try:
+    id(showTimeZone)
+except:
+    showTimeZone='US/Eastern' 
+try:
+    id(clientId) 
+except:
+    clientId=9 
+    
+try:
+    id(repBarFreq)
+except:
+    if runMode=='run_like_quantopian':
+        repBarFreq=60
+    else:
+        repBarFreq=1
+
+try:
+    id(before_trading_start)
+except:
+    before_trading_start=None
+
+try:
+    id(handle_data)
+except:
+    handle_data=None
+
+try:
+    id(trader)
+    time.sleep(1)
+    trader.disconnect()
+    time.sleep(1)
+except:
+    time.sleep(1)
+
+trader=Trader()
+trader.setup_trader(accountCode=accountCode,
+                    logLevel=logLevel,
+                    showTimeZone=showTimeZone,
+                    repBarFreq=repBarFreq, 
+                    initialize_quantopian=initialize,
+                    handle_data_quantopian=handle_data,
+                    before_trading_start_quantopian=before_trading_start)
+
+with open('define_functions.txt') as f:
+    script = f.read()
+exec(script)
+
+try:
+    id(remoteHostIP)
+except:
+    remoteHostIP=''
+c=MarketManager(trader, host=remoteHostIP, port=7496, clientId=clientId)
+
+if runMode=='run':
+    c.run()
+elif runMode=='run_like_quantopian':
+    c.run('run_like_quantopian')
+elif runMode in ['test_run_daily', 'test_run']:
+    try:
+        id(dataSource)
+    except:
+        dataSource='IB'
+    c.test_run(startTime, endTime, dataSource, interval=interval)
+else:
+    print ('realMode::EXIT, cannot handle runMode=%s'%(runMode,))
+
+

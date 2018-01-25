@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 06 15:29:18 2016
+
+@author: Administrator
+"""
+
+log = trader.log
+record = trader.userLog.record
+get_datetime=trader.get_datetime
+order=trader.order
+order_target=trader.order_target
+order_percent=trader.order_percent
+order_value = trader.order_value
+order_target_percent = trader.order_target_percent
+order_target_value = trader.order_target_value
+cancel_order=trader.cancel_order
+cancel_all_orders=trader.cancel_all_orders
+roundToMinTick=trader.roundToMinTick
+request_data=trader.request_data
+order_status_monitor=trader.order_status_monitor
+display_positions=trader.display_positions
+display_orderStatusBook=trader.display_orderStatusBook
+display_all=trader.display_all
+close_all_positions=trader.close_all_positions
+close_all_positions_except=trader.close_all_positions_except
+symbol=trader.symbol
+symbols=trader.symbols
+superSymbol=trader.superSymbol
+show_real_time_price=trader.show_real_time_price
+count_open_orders=trader.count_open_orders
+count_positions=trader.count_positions
+show_account_info=trader.show_account_info
+calculate_profit=trader.calculate_profit
+create_order=trader.create_order
+place_order_with_TP_SL=trader.place_order_with_TP_SL
+place_combination_orders=trader.place_combination_orders
+show_nextId=trader.show_nextId
+hold_any_position=trader.hold_any_position
+schedule_function=trader.schedule_function
+request_historical_data=trader.request_historical_data
+get_order=trader.get_order
+get_open_orders=trader.get_open_orders
+get_option_greeks=trader.get_option_greeks
+get_contract_details=trader.get_contract_details
+end=trader.end
